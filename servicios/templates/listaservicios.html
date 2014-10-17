@@ -1,0 +1,60 @@
+<table cellpadding="0" cellspacing="0" border="0" class="display table table-hover" id="tblServicios" width="100%">
+				                    <thead>
+				                        <tr>
+				                            <th>FECHA</th>
+				                            <th>FOLIO</th>
+                                    <th>TIPO</th>
+				                            <th>ESTADO DEL SERVICIO</th>
+				                            <th>TÉCNICO</th>
+				                            <th class="center">CLIENTE</th>
+				                            <th class="center">CONSULTA</th>
+                                    {% if edo == 5 %}
+                                        <th>GARANTIA</th>
+                                    {% endif %}
+				                        </tr>
+				                    </thead>
+				                    <tbody class="tblServs"> 
+                              {% for servicio in lista %}
+                              <tr>
+                                <td>{{servicio.fechaEntrada|date:"d M Y H:i" }}</a></td>
+                                <td>{{servicio.id}}</td>
+                                 <td>
+                                    {{servicio.tipoSer.all|first}}
+                                
+                                 </td> 
+                                <td>
+                                 {{name}}
+                                </td>
+                                <td>
+                                {% for tecnico in servicio.tecnico.all %}
+                                      {{ tecnico.user.first_name }},
+                                {% endfor %}
+                                </td>
+                                <td>{{servicio.cliente}}</td>
+                                <td class="center"><a href="{% url 'detaillservice' servicio.id%}" title="consulta de datos del servicio"><button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-arrow-right"></span> </button></a></td>
+                                {% if edo == 5 %}
+                                     <td class="center"><button class="btn btn-warning btn-xs btnGar" id="btnGar" title="revisa si el equipo entra a garantia" data-ids='{{servicio.id}}'><span class="glyphicon glyphicon-arrow-right" data-></span> </button>
+                              
+                                     </td>
+                                       
+                                {% endif %}
+                              </tr> 
+                              {% empty %}
+                                <tr>
+                                  <td>No hay datos</td>
+                                  <td>No hay datos</td>
+                                  <td>No hay datos</td>
+                                  <td>No hay datos</td>
+                                  <td>No hay datos</td>
+                                  <td>No hay datos</td>
+                                  <td>No hay datos</td>
+                                  {% if edo == 5 %}
+                                  <td>No hay datos</td>
+                                  {% endif %}
+                                </tr>
+
+                              {% endfor %}
+
+                            </tbody>
+				                    <tfoot> </tfoot>
+				                </table>

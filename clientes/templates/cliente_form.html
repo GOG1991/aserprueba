@@ -1,0 +1,10 @@
+<form action="{% url 'addCliente' %}" method="POST" enctype="multipart/form-data" id="frmRegistro">
+  {% csrf_token %}
+{{clienteform.as_p }} 
+{{repformset.as_p}}
+<div class="modal-footer">
+	<span id="spnSpinnerR"></span>
+	<button type="button" class="btn btn-primary" id="btnCrear">REGISTRAR</button>
+	<button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+</div>
+</form>

@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %} ASER 2.0 SERVICIO NUEVO {% endblock %}
+
+{% load staticfiles %}
+
+{% block opciones %}
+  <section id="sctnOptions"> <!-- options star -->
+    <div class="container divOptions" class="divOptions">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs col-lg-offset-1 pull-left"><span class="titleSec">ASER V2.0</span></div>
+            <div class="col-xs-3 col-sm-offset-6 active">
+            	REGISTRO SERVICIOS
+            </div> 
+        </div>     
+    </div>   
+  </section> <!-- options end --> <br>
+{% endblock %}
+
+{% block content %}
+
+	<section id="sctnContainer"> <!-- container start -->
+	    <div class="container" >
+		    <div class="row">
+		        <div class="col-lg-6  col-md-12  col-sm-12  col-xs-12 col-lg-offset-3">
+		            <div class="panel panel-primary">
+			        	<div class="panel-heading titlePanel">SERVICIO <span style="float:right;">FOLIO {{next_Folio}}</span></div>
+                        <input type="hidden" id="nserieAl" value="serv{{next_Folio}}">
+			        	<div class="panel-content">
+				        	<div class="row"><br>
+                                {% if status == 1 or status == 2 %}
+                                    <div class="col-xs-8  col-xs-offset-1 alert alert-warning msj-formSer">
+                                        Error en el envio revisa los campos marcados
+                                    </div>
+                                {% endif %}
+				        		<div class="prueba2 col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+				        			<form action="." method="POST" enctype="multipart/form-data" id="frmRegistroSer" role="form">
+										 {% include 'addEquipos.html' %}
+				        			</form>
+				        			<div class="col-sm-3 col-xs-5 col-lg- col-sm-offset-10 col-xs-offset-7 spnStep" id="btnStep"></div>
+				        		</div>
+				        	</div>
+			        	</div>
+			        </div>
+		        </div>
+		    </div>
+		</div>
+	</section> <!-- container end -->
+{% endblock %} 
+{% block modal %}
+	<div class="modal fade" id="myModal" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">SELECCIONE UN CLIENTE<button id="botonP" class="btn btn-success col-xs-offset-1 mas" ><span class="glyphicon glyphicon-plus "></span> Registrar Cliente</button></h4>
+                    </div>
+                    <div class="modal-body" id="selectCli">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end modal edit cliente windows -->
+        	<div class="modal fade" id="myModalEquipo" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">SELECCIONE UN EQUIPO<button id="addequipo" class="btn btn-success col-xs-offset-1 mas" ><span class="glyphicon glyphicon-plus "></span> Registrar Equipo</button></h4>
+                    </div>
+                    <div class="modal-body" id="selectEqui">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end modal edit equipo windows -->
+
+        <div class="modal fade" id="myModalFalla" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">SELECCIONE UNA FALLA<button id="addfalla" class="btn btn-success col-xs-offset-1 mas" ><span class="glyphicon glyphicon-plus "></span> Registrar Falla</button></h4>
+                    </div>
+                    <div class="modal-body" id="selectFalla">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end modal seleccionar falla windows -->
+
+        <div class="modal fade" id="modalAltaC" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">REGISTRO DE CLIENTES</h4>
+                    </div>
+                    <div class="modal-body">
+                         {% include 'cliente_form.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="modalAltaE" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">REGISTRO DE EQUIPOS</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <div id="divEquipo">
+                              {% include 'equipo_form.html' %}
+                        
+                        </div>
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalAltaF" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">REGISTRO DE FALLAS</h4>
+                    </div>
+                    <div class="modal-body">
+                         {% include 'falla_form.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal para accesorios equipo-->
+ <div class="modal fade" id="modalEqAcce" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">CONSULTA DE ACCESORIOS  <span id="spnAcceE"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="equipowacc">
+                            
+                        </div>
+
+                         <div class="modal-footer">
+                            <span id="spnAEBD"></span>
+                            <button type="button" class="btn btn-primary" id="btnEwAcc" >REGISTRAR</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" language="javascript" src="{% static 'js/jquery.validate.js' %}"></script>
+    <script type="text/javascript" language="javascript" src="{% static 'js/servicios/servicios.js' %}"></script>
+    <script type="text/javascript" language="javascript" src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/servicios/jquery-ui-timepicker-addon.js' %}"></script>
+    <!--<script type="text/javascript" language="javascript" src="{% static 'js/equipos/equipos.js' %}"></script>-->
+    <script type="text/javascript" language="javascript" src="{% static 'js/historiales/fallas.js' %}"></script>
+   
+
+{% endblock %}

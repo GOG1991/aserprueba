@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %} ASER 2.0 {%endblock %}
+
+{% load staticfiles %}
+
+{% block opciones %}
+  <section id="sctnOptions"> <!-- options star -->
+    <div class="container divOptions" class="divOptions">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs col-lg-offset-1 pull-left"><span class="titleSec">ASER V2.0</span></div>
+             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 ">
+                 <form action="" method="post">
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="radio1" class="rdoT" value="1"> Locales
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="inlineRadioOptions" id="radio2"  class="rdoT" value="2"> Domicilio
+                    </label>
+                 </form>
+             </div>
+             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 divBalls">
+                <!--<button type="button" class="btn btn-default btn-r btn-sm">R 10</button>
+                <button type="button" class="btn btn-default btn-d btn-sm">D 2</button>
+                <button type="button" class="btn btn-default btn-p btn-sm">P 6</button>
+                <button type="button" class="btn btn-default btn-s btn-sm">S 0</button>
+                <button type="button" class="btn btn-default btn-t btn-sm">T 0</button>
+                <button type="button" class="btn btn-default btn-g btn-sm">G 4</button>-->
+                <ul class="listaedoserv">
+                  <li>
+                    <div class="contenedor">
+                      <a href="#" class="lnkEdo"  data-number="1" title="">
+                        <div class="fron btnFront">F</div>
+                        <div class="back btn-r">R</div></a>
+                   </div>
+                  </li>
+                   <li>
+                    <div class="contenedor">
+                      <a href="#" class="lnkEdo"  data-number="2" title="">
+                        <div class="fron btnFront">F</div>
+                        <div class="back  btn-p">P</div></a>
+                    </div>
+                  </li>
+                   <li>
+                    <div class="contenedor">
+                      <a href="#" class="lnkEdo"  data-number="3" title="">
+                        <div class="fron btnFront">F</div>
+                        <div class="back btn-s">S</div></a>
+                    </div>
+                  </li>
+                   <li>
+                    <div class="contenedor">
+                      <a href="#" class="lnkEdo"  data-number="4" title="">
+                        <div class="fron btnFront">F</div>
+                        <div class="back btn-t">T</div></a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="contenedor">
+                      <a href="#" class="lnkEdo"  data-number="5" title="">
+                        <div class="fron btnFront">F</div>
+                        <div class="back btn-e">E</div></a>
+                    </div>
+                  </li>
+                   <li>
+                    <div class="contenedor">
+                      <a href="#" class="lnkEdo"  data-number="6" title="">
+                        <div class="fron btnFront">F</div>
+                        <div class="back btn-b">B</div></a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="contenedor">
+                      <a href="{% url 'home' %}" class="lnkEdo"  data-number="7">
+                        <div class="fron btnFront">F</div>
+                        <div class="back btn-s">C</div></a>
+                    </div>
+                  </li>
+                 
+                </ul>
+            </div>
+        </div>     
+    </div>   
+  </section> <!-- options end --> <br>
+{% endblock %}
+
+{% block content %}
+
+	<section id="sctnContainer"> <!-- container start -->
+	    <div class="container">
+		    <div class="row">
+		        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			        <div class="panel panel-primary">
+			        	<div class="panel-heading">CONSULTA DE SERVICIOS</div>
+			        	<div class="panel-content">
+			        		<br>
+			        		<div class="table-responsive" id="listaS">
+				                {% include 'listatiposer.html' %}
+		            		</div>
+			        	</div>
+			        </div>
+		        </div>
+		    </div>
+		</div>
+	</section> <!-- container end -->
+
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="myModal" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title" id="myModalLabel">REGISTRO DE CLIENTES</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="txtNombre"><i class="fa fa-asterisk"></i> Nombre completo</label>
+                                 {{ form.nombre }}
+                            </div>
+                             <div class="form-group">
+                                <label for="txtTelefono"><i class="fa fa-asterisk"></i> Teléfono celular</label>
+                                <input type="tel" id="txtTel" name="txtTel" class="form-control" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="txtTelefono2">Teléfono 2</label>
+                                <input type="tel" id="txtTel2" name="txtTel2" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtDireccion">Dirección</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtEmail">Correo Eléctronico</label>
+                                <input type="e-mail" class="form-control">
+                            </div>
+                            <div class="form-group">
+                               <label for="sltCiudad">Ciudad</label>
+                               <select class="form-control" id="sltCiudad">
+                                  <option>Sahuayo</option>
+                               </select>
+                            </div>
+                            <div class="form-group">
+                               <label for="sltReputacion">Reputación</label>
+                               <select class="form-control" id="sltReputacion">
+                                  {% for reputaciones in lista_reputaciones %}
+                                    <option value="1">{{reputaciones.nombre}}</option>
+                                  {% endfor %} 
+                               </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" >REGISTRAR</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end modal windows -->
+<!-- modal Garantias -->
+<div class="modal fade" id="modalGar" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+               <h4 class="modal-title" id="myModalLabel"> Garantía de servicio </h4>
+          </div>
+          <div class="modal-body">
+            <div id="divGarantias">
+             
+            </div>
+          </div>
+      </div>
+  </div>
+</div>        
+{% endblock %}
+{% block script %}
+  <script type="text/javascript" language="javascript" src="{% static 'js/servicios/listaserv.js' %}"></script>
+
+{% endblock %}

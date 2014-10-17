@@ -1,0 +1,9 @@
+<form action="" method="POST" enctype="multipart/form-data" id="frmAcceBd">
+	{% csrf_token %}
+	{{ form.as_p }}
+	{{ eq_formset.management_form }}
+	{% for formset in eq_formset %}
+		{{formset.as_p}}
+	{% endfor %}
+	<input type="hidden" name="txtidEa" id="txtidEa" value="0">
+</form>

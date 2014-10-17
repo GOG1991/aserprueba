@@ -1,0 +1,417 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalles de Servicio {{servicio.id}} {% endblock %}
+{% load staticfiles %}
+
+{% block opciones %}
+  <section id="sctnOptions"> <!-- options star -->
+    <div class="container divOptions" class="divOptions">
+        <div class="row">
+            <div class="col-xs-12 active">
+            	DETALLES DE SERVICIOS
+            </div> 
+        </div>     
+    </div>   
+  </section> <!-- options end --> <br>
+{% endblock %}
+
+{% block content %}
+
+	<section id="sctnContainer"> <!-- container start -->
+	    <div class="container">
+		    <div class="row">
+		        <div class="col-xs-12">
+			        <div class="panel panel-primary">
+			        	<div class="panel-heading">CLIENTE : <a href="{% url 'detaill_cliente' servicio.cliente.id %}" class="lnkClie" title="ver datos del cliente">{{servicio.cliente}} </a> Teléfono {{servicio.cliente.telefono1}}  <span class="pull-right hidden-xs">FOLIO DE SERVICIO : <a href="{% url 'reciboSer' servicio.id %}" class="lnkClie" title="reimprimir recibo"> {{servicio.id}} </a></span></div> <!-- {% url 'addCliente' %} -->
+			        	<div class="panel-content">
+			        		<br>
+			     
+			        		<div class="divDetalleServ container">
+				       			<div class="row">
+				       				
+				       				<div class="col-sm-5">
+				       					<span class="active">Fecha entrada: </span><span>{{servicio.fechaEntrada}} </span>
+				       					<input type="hidden" value="{{servicio.id}}" id="idSer">
+				       				</div>
+				       				<div class="col-sm-4">
+				       					<span class="active">Servicio :  </span>
+				       					<span>
+					       					{{listaTipoS.tipo.nombre}}
+				       					</span>
+				       				</div>
+				       				<div class="col-sm-2">
+				       					<span><a href="#" id="lnkHis" class="btn btn-success btn-xs" title="ver historial de estados del servicio">Historial De Estados</a></span>
+				       					<!--{% url 'estados' servicio.id %}-->
+				       				</div>
+				       				{% if servicio.costo %}
+				       					<div class="col-sm-5"><span class="active">Costo de servicio: </span> $ {{servicio.costo}}</div>
+				       				{% else %}	
+				       					<div class="col-sm-5"><span class="active">Costo de servicio: </span>sin asignar</div>
+				       				{% endif %}	
+				       				{% if servicio.costo_respaldo %}
+				       					<div class="col-sm-4"><span class="active">Costo Respaldo:</span> $ {{servicio.costo_respaldo}}</div>
+				       				{% else %}	
+				       					<div class="col-sm-4"><span class="active">Costo Respaldo:</span> sin asignar</div>
+				       				{% endif %}	
+				       				<div class="col-sm-3">
+				       					<span class="active">Condición servicio :</span> 
+				       					<strong>{{servicio.condicion}}</strong>
+				       				</div>
+
+				       				{% if total > 0 %}
+										<div class="col-sm-5"><span class="active">Costo productos :</span> $ {{ total }}</div>
+									{% else %}	
+				       					<div class="col-sm-5"><span class="active">Costo productos:</span> sin asignar</div>	
+				       				{% endif %}
+
+				       				{% if servicio.costo_descuento %}
+										<div class="col-sm-4"><span class="active">Descuento % :</span> {{ servicio.costo_descuento|floatformat}}</div>
+									{% else %}	
+				       					<div class="col-sm-4"><span class="active">Descuento %:</span> sin asignar</div>	
+				       				{% endif %}
+
+
+				       				{% if totC > 0 %}
+										<div class="col-sm-3"><span class="active">Costo total :</span><strong> $ {{ totC }} </strong></div>
+									{% else %}	
+				       					<div class="col-sm-3"><span class="active">Costo total:</span> sin asignar</div>	
+				       				{% endif %}
+
+				       				{% if servicio.fechaTerminado %}
+				       					<div class="col-sm-5"><span class="active">Fecha Terminado :</span>  {{ servicio.fechaTerminado }}</div>
+				       				{% else %}	
+				       					<div class="col-sm-5"><span class="active">Fecha Terminado :</span>  sin asignar</div>
+				       				{% endif %}	
+				       				
+
+				       				{% if servicio.fechaEntregado %}
+				       					<div class="col-sm-7"><span class="active">Fecha Entregado :</span> {{ servicio.fechaEntregado}}</div>
+				       				{% else %}	
+				       					<div class="col-sm-7"><span class="active">Fecha Terminado :</span>  sin asignar</div>	
+				       				{% endif %}	
+				       				<div class="col-sm-5">
+				       					<span class="active">Estado :</span>
+				       					<span class="lastEstado" id="lastEdo">{{lastEstado.estado.nombre}}</span>
+				       					<button class="btn btn-success btn-xs" id="lnkEdo" title="cambiar estado del servicio"><span class="glyphicon glyphicon-edit"></span></button>
+				       				</div>
+									<div class="col-sm-6">
+				       					<span class="active">Días de Garantía :</span>
+				       					<span id="spn-diasG"><strong>{{servicio.garantia}}</strong></span>
+				       					<button class="btn btn-success btn-xs" id="btnOpenG" title="modificar días de garantía"><span class="glyphicon glyphicon-edit"></span></button>
+				       					<div class="changeG" id="changeG">
+					       					<form action="" id="frmChangeG">
+					       						 {% csrf_token %}
+					       						 <input type="hidden" id="id" name="id" value="{{servicio.id}}">
+					       						 {{garantia}}
+					       						 <button class="btn btn-primary btn-md" id="btnChangeG" title="modificar días de garantía del servicio">Cambiar</button>
+					       						 <span id="msj-gar"></span>
+					       					</form>
+				       					</div>
+				       				</div>
+									{% if lastEstado.estado.id == 4 %} 
+					       				<div class="col-xs-12">
+					       					<form action="{% url 'estadofin' %}" method="post" enctype="multipart/form-data">
+												{% csrf_token %}
+												<button type="hidden" class="btn btn-md btn-danger" id="txtIdS" name="idSv" value="{{servicio.id}}">ENTREGAR</button>
+												{{edoForm}}
+											</form>	
+					       				</div>
+				       				{% endif %}	
+				       			</div>
+				       			<hr>
+				       			<div class="row">
+				   					<div class="col-xs-12">
+				   						<span class="titleEqu">Equipos </span>
+				   						
+				   						{% for equipos in listadetalles %}
+				   						<div class="row divEquipos" id="divEquipos">
+				   							<div class="col-xs-12">
+				       							<span class=" lblEquipo">Equipo </span>{{equipos.equipo.categoria}} {{equipos.equipo}}
+				       						</div>
+				       		
+											<div class="col-sm-5">
+												<span class="lblCon">Contraseña del equipo </span>{{equipos.password}}
+											</div>
+				       						<div class="col-sm-7">
+				       							<span class="lblFalla">Falla  </span> {{equipos.falla}}
+				       						</div>
+
+				       						<div class="col-xs-12">
+				       							<span class="lblServs">Servicios solicitados </span> {{equipos.serviciosSolicitados}}
+				       						</div>
+				       						<div class="col-xs-12">
+				       							<span class="lblObser">Diagnóstico </span> {{equipos.observaciones}}
+				       						</div>
+				       						<div class="col-sm-5 lblRev">
+				       							<span>Revición</span>
+				       							{% if equipos.revicion %}
+				       								<span class="glyphicon glyphicon-ok ok"></span>
+				       							{% else %}	
+				       								<span class="glyphicon glyphicon-remove not"></span>
+				       							{% endif %}	
+				       							
+				       						</div>
+				       						<div class="col-sm-3">
+				       							<span class="lblResp">Respaldo</span>
+				       							{{equipos.respaldo}}
+				       						</div>
+				       						<div class="col-sm-3">
+				       							<span class="lblMant">Mantenimiento :</span>{{equipos.mant}}
+				       						</div>
+				       						<div class="col-xs-12">
+				       							<span class="lblMant">Descripción del equipo</span>
+				       							{{equipos.equipo.descripcion}}
+				       						</div>
+				       						<div class="col-xs-12">
+				       								<button class="btn btn-success btn-xs btnDetalles" data-idequipo='{{equipos.equipo.id}}' id="btnDetalles" title="ver accesorios del equipo">Ver accesorios</button>
+				       								<button class="btn btn-primary btn-xs btnHist" data-idequipo='{{equipos.equipo.id}}' id="btnHist" title="ver historial de servicios del equipo">Ver Historial de servicios de este equipo</button>
+				       								<div class="col-xs-12 divAccesorios" id="divAccesorios">
+				       									{% include 'pset.html' %}
+				       								</div>
+				       								<div class="col-xs-12 divHistorial" id="divHistorial">
+				       									
+				       								</div>
+				       								
+				       						</div>
+				   						</div>
+				   						{% endfor %}
+
+				   					</div>	
+				       			</div>
+				       			<hr>
+				       			
+       					<!--<span class="ok">Técnicos:  </span>-->
+       					
+	       						{% for tecnico in listatecnicos %}
+	       							<div class="row">
+	       									<div class="col-sm-3">
+												<span class="ok">Técnico:  </span>
+												{{ tecnico.perfil.user.first_name }} 
+												<span>,</span>
+											</div>	
+										{% if listaTipoS.tipo.id == 2 %}
+											<div class="col-sm-4">
+												{% if tecnico.fechaInicio %}
+													<span class="ok">Hora atención: </span>	
+													{{ tecnico.fechaInicio}} 
+												{% else %}
+													<span class="watch">Horario sin asignar</span>	
+												{% endif %}
+											</div>	
+											<div class="col-sm-5">
+												{% if tecnico.fechaFin %}
+													<span class="ok">Hora finalización: </span>	
+													{{ tecnico.fechaFin}} 
+												{% else %}
+													<span class="watch">Horario sin asignar</span>		
+												{% endif %}
+											</div>	
+										{% endif %}	
+									</div>	
+							{% endfor %}
+				       			<hr>
+				       			<div class="row">
+				       				<div class="col-sm-5">
+				       					<span class="titleProd">Productos </span><br>
+				       					
+				       					<ul id="listprod" class="lista">
+				       						{% if listProd|length > 0 %}
+					       						{% for productos in listProd %}
+													<li>{{productos.producto}} <span class="active">Cantidad </span>{{productos.cantidad}}</li>
+					       						{% endfor %}
+					       					{% else %}	
+					       						<li>Sin productos</li>
+					       					{% endif %}	
+				       					</ul>
+				       					<a href="#" id="lnkprod" class="btn btn-success btn-xs" title="Agregar producto existente">Agregar al servicio</a>
+				       					<button class="btn btn-primary btn-xs" title="registrar producto nuevo" id="btnFormP">Nuevo</button>
+				       					<span class="ok" id="spinProdExito"></span>
+				       				</div>
+				       				<div class="col-sm-5">
+				       					<span class="titleSol">Solución </span><span class="spnSol ok" id="spnSol"></span><br>
+				       					<ul class="lista">
+				       						{% if servicio.solucion.all|length > 0 %}
+						       					{% for sol in servicio.solucion.all %}
+						       						
+														<li>{{sol.nombre}}</li>	
+									
+					       						{% endfor %}
+					       					{% else %}
+					       						<li>Sin especificar</li>	
+				       						{% endif %}
+				       					</ul>
+				       					<button id="btnSol" class="btn btn-success btn-xs" title="elegir solución de la lista de soluciones" >Elegir solución</button>
+				       					<button id="btnaddSol" class="btn btn-primary btn-xs" title="registrar una nueva solución">Nueva solución</button>
+				       					<button id="btnaddSolPo" class="btn btn-success btn-xs" title="recomendaciones de solución para la falla">Posibles Soluciones</button>
+				       				</div>
+				       				<div class="col-sm-2">
+				       					{% if lastEstado.estado.id != 5 %} 
+				       					<a href="{% url 'salidaservice' servicio.id %}" class="btn btn-md btn-warning btn-salida" title="asignar costos al servicio">Asignar costo<i class="fa fa-usd fa-lg"></i></a>
+				       					{% endif %}
+				       				</div>
+				       				<div class="col-xs-10 col-xs-offset-1 divSol" id="divSol">
+				       					hi!
+				       				</div>
+				       				<div class="col-xs-10 col-xs-offset-1 divSolBd" id="divSolBd">
+				       					hi!
+				       				</div>
+				       				<div class="col-xs-10 col-xs-offset-1 divSolPosi" id="divSolPosi">
+				       					{% for s in sol  %}
+										<ul class="listSug">
+											{% for k, s in s.items %}
+												{% if k.id > 1%}
+													<li> <span><a href="{% url 'detailsolucion' %}" id="lnkSol" data-idsolucion='{{k.id}}' class="btn btn-success btn-xs lnkSol">Ver Detalles</a></span> Solución: <span class="spnSolu">{{k.nombre}}</span> usada en : {{ s }} ocasiones</li>
+												{% endif %}
+											{% endfor %}
+										</ul>
+										{% endfor %}
+				       				</div>
+				       			</div><hr>
+								<div class="row">
+									<div class="col-sm-5"></div>
+								</div>
+		            		</div>
+			        	</div>
+			        </div>
+		        </div>
+		    </div>
+		</div>
+		
+		
+	</section> <!-- container end -->
+
+{% endblock %}
+
+{% block modal %}
+<!-- modal para cambiar el estado del servicio-->
+<div class="modal fade" id="modalChangeEdo" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	             <h4 class="modal-title" id="myModalLabel">CAMBIO DE ESTADO</h4>
+	        </div>
+	        <div class="modal-body">
+	             {% include 'cambioEstado.html' %}
+	        </div>
+	    </div>
+	</div>
+</div>
+<!-- modal para los productos-->
+<div class="modal fade" id="modalProd" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	             <h4 class="modal-title" id="myModalLabel">SELECCIONA EL PRODUCTO</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<form  action="{% url 'selprod' %}" method="post" name="frmProd" id="frmProd">
+	              {% include 'selprod.html' %}
+	              	<input type="hidden" value="{{servicio.id}}" name="id" id="id">
+				</form>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<!-- modal para agregar soluciones -->
+<div class="modal fade" id="modalSol" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	             <h4 class="modal-title" id="myModalLabel">REGISTRO DE SOLUCIONES</h4>
+	        </div>
+	        <div class="modal-body">
+	        <form id="frmSolBd" name="frmSolBd">
+	              {% include 'sol_form.html' %}
+	              	<input type="hidden" value="{{servicio.id}}" name="id" id="id">
+	              <div class="modal-footer">
+	              	<span id="spnSolBd"></span>
+                    <button class="btn btn-primary" id="btnRsolucion">REGISTRAR SOLUCIÓN</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  </div>	
+			</form>
+
+	        </div>
+	    </div>
+	</div>
+</div>
+<!-- modal para agregar producto nuevo -->
+<div class="modal fade" id="moaddProd" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	             <h4 class="modal-title" id="myModalLabel">REGISTRO DE PRODUCTOS</h4>
+	        </div>
+	        <div class="modal-body">
+	        <form id="frmaddPnew" name="frmaddPnew">
+	              {% include 'addProd.html' %}
+	              <div class="modal-footer">
+	              	<span id="spnProdBd"></span>
+                    <button class="btn btn-primary" id="btnaddProd">REGISTRAR PRODUCTO</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  </div>	
+			</form>
+
+	        </div>
+	    </div>
+	</div>
+</div>
+<!-- modal historial -->
+<div class="modal fade" id="modalH" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	             <h4 class="modal-title" id="myModalLabel">HISTORIAL DEL SERVICIO FOLIO {{servicio.id}}</h4>
+	        </div>
+	        <div class="modal-body">
+	        <div id="divHis">
+	        	  <div id="Historial">
+	             	
+	              </div>
+	              <div class="modal-footer">
+	              	<span id="spnProdBd"></span>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                  </div>	
+			</div>
+
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<!-- modal solucion Detail -->
+<div class="modal fade" id="modalDetail" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	             <h4 class="modal-title" id="myModalLabel"> Descripcion de la solución </h4>
+	        </div>
+	        <div class="modal-body">
+	        <div id="divSol">
+	        	  <div id="soluciones">
+	             	
+	              </div>
+	              <div class="modal-footer">
+	              	<span id="spnProdBd"></span>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                  </div>	
+			</div>
+
+	        </div>
+	    </div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" language="javascript" src="{% static 'js/servicios/detall.js' %}"></script>
+
+{% endblock %}
+

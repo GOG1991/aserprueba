@@ -1,0 +1,129 @@
+ {% csrf_token %}
+
+ {% load formset_tags %}
+				        				<div class="divP1" id="divP1">
+					        				<div class="form-group" id="formSet">
+					        						<div class="col-sm-12">
+					        							{{tiposerFormset.as_p}}
+
+					        							<div class="form-group  has-feedback">
+														    <label class="control-label" for="txtSelCli">Cliente</label>
+														    {% if status == 1 or status == 2 %}
+																{% if servicio.cliente.nombre %}
+																	 <input type="text" id="txtSelCli" class="form-control txtSelCli" placeholder="clic aqui para buscar al cliente" value="{{ servicio.cliente.nombre }}" name="txtSelCli">
+														  			  <span class="glyphicon glyphicon-search form-control-feedback" ></span>
+																{% endif %}
+															{% else %}
+																<input type="text" id="txtSelCli" class="form-control txtSelCli" placeholder="clic aqui para buscar al cliente" name="txtSelCli">
+														   		 <span class="glyphicon glyphicon-search form-control-feedback" ></span>
+																
+														    {% endif %}
+  														</div>
+  															{{serviceForm.as_p }}
+  															
+					        						</div>
+					        				</div>
+					        				<div class="form-group">
+					        					<div class="col-xs-1  col-lg-offset-10 col-md-offset-10 col-sm-offset-10 col-xs-offset-9">
+					        						<button class="btn btn-success btnsig" id="btnStep1" title="siguiente"><span class="glyphicon glyphicon-arrow-right"></span></button>
+					        					</div>
+					        				</div>
+				        				</div>
+				        				<div class="divP2"> <!-- paso 2 -->
+					        				<div class="form-group">
+					        					<div class="col-xs-12">
+					        						<div id="formsetd" data-formset-prefix="{{ detalleFormset.prefix }}">					
+															{{ detalleFormset.management_form }}
+					        								 <div data-formset-body>
+					        								 	{% for form in detalleFormset.forms %}
+					        								 		<span class="txtSelDev"></span>
+				        											<span class="spanFalla"></span><br>
+				        											<div class="divRespaldo" id="divRespaldo">
+					        										<!--<span>Pedir Contraseña</span>
+					        									 	<label class="radio-inline">
+	                      												<input type="radio" name="inlineRadioOptions" id="radio1" class="rdoC" value="1"> si
+	                   											 	</label>
+	                  											  	<label class="radio-inline">
+	                    										  	<input type="radio" name="inlineRadioOptions" id="radio2"  class="rdoC" 	value="2"> no
+	                   											 	</label>-->
+	                   											 	</div>
+					        								 	<div data-formset-form>
+					        								 		{{form.as_p}}
+					        								 			<datalist id="solicitudesCli">
+					        											<option value="dar solución al problema"></option>
+					        											<option value="que se repare"></option>
+					        											<option value="formato completo"></option>
+					        											<option value="hacer diagnóstico"></option>
+					        											</datalist>
+					        											<datalist id="listrepaldos">
+					        												<option value="no es necesario"></option>
+					        												<option value="total"></option>
+					        												<option value="sin respaldo"></option>
+					        												<option value="completo"></option>
+					        												<option value="perfil de usuario"></option>
+					        												<option value="documentos"></option>
+					        												<option value="perfil de usuario menos música"></option>
+					        												<option value="perfil de usuario menos videos"></option>
+					        											</datalist>
+				        												
+				        											{% endfor %}
+					        								 	</div>
+					        								 	 <!-- The empty form template. By wrapping this in a <script> tag, the
+        														__prefix__ placeholder can easily be replaced in both attributes and
+        														any scripts -->
+
+        														<script type="form-template" data-formset-empty-form>
+            														{% escapescript %}
+            														<span class="txtSelDev"></span>
+				        											<span class="spanFalla"></span><br>
+				        											<div class="divRespaldo" id="divRespaldo">
+                														<div data-formset-form>
+                   														 {{ detalleFormset.empty_form }}
+                   														 <button type="button" data-formset-delete-button class="btnEquipo">Borrar formulario</button>
+                														</div>
+            														{% endescapescript %}
+       														 	</script>
+					        								 </div>
+					        								 <hr>
+					        								 <input title='Agregar otro equipo' type='button' id="" name='add_equipo' class="btnEquipo" value='Agregar otro equipo' data-formset-add />
+					        								<script>
+        													jQuery(function($) {
+           													 $("#formsetd").formset();});</script>
+
+					        							</div>
+					        						
+
+					        					</div>
+					        				</div>
+					        				<div class="form-group">
+					        					<div class="row">
+					        						<div class="col-xs-1  col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-5 ">
+					        							<button class="btn btn-warning btnBack" id="btnStep2" title="atrás"><span class="glyphicon glyphicon-arrow-left"></span></button>
+					        						</div>
+						        					<div class="col-xs-1 col-sm-offset-8 col-xs-offset-3">
+						        						<button class="btn btn-success btnsig" id="btnStep3" title="siguiente"><span class="glyphicon glyphicon-arrow-right"></span></button>
+						        					</div>
+					        					</div>
+					        				</div>
+				        				</div>  <!-- paso 2 -->
+				        				<div class="divP3">
+				        					<div class="form-group">
+				        						<div class="col-xs-12">
+				        							{{estadoFormset.as_p}}
+					        						<!--{{mantFormset.as_p}}-->
+					        						{{tecnicoserFormset.as_p}}
+					        						<!--{{productoFormset.as_p}}-->
+				        						</div>
+				        					</div>
+				        					<div class="form-group">
+					        					<div class="row">
+					        						<div class="col-xs-1  col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-5 ">
+					        							<button class="btn btn-warning btnBack" id="btnStep4" title="atrás"><span class="glyphicon glyphicon-arrow-left"></span></button>
+					        						</div>
+						        					<div class="col-xs-1 col-sm-offset-8 col-xs-offset-3">
+						        						<button type="submit" class="btn btn-primary btnsig" id="btnStepEnd" title="finalizar registro" name="submit"><span class="glyphicon glyphicon-ok"></span></button>
+						        					</div>
+					        					</div>
+					        				</div>
+				        				</div>
+				        				

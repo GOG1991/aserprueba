@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ cliente.nombre }}</h1>
+
+<p>Ciudad</p>
+
+{{ cliente.ciudad }}
+
+<img src="/media/{{cliente.picture}}"  alt="">
+
+<p>Persona autorizada</p>
+<ul>
+	{% for personaAuto in personasAuto %}
+	<li>
+		{{ personaAuto.nombre }}		
+	</li>	
+
+
+{% empty %}
+<p>No hay personas autorizadas</p>
+{% endfor %}
+</ul>
+<p>Servicios</p>
+<ul>
+	{% for servicio in servicioC %}
+	<li>
+		{% for equipo in servicio.equipo.all %}
+		{{ equipo.modelo }}	
+		{% endfor %}
+	</li>
+	<li>
+		{% for falla in servicio.falla.all %}
+		{{ falla.nombre }}	
+		{% endfor %}
+	</li>
+
+</ul>
+
+{% empty %}
+<p>No hay servicios</p>
+{% endfor %}
+
+<p>Reputacion</p>
+{{ultima.reputacion}}
+<p>Color </p>
+{{ultima.reputacion.color}}
+
+<p><a href="{% url 'hisrep' cliente.id %}"> Ver el historial</a></p>
+
+{% endblock %}

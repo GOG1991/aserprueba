@@ -1,0 +1,43 @@
+<div id="divhistE" class="table-responsive">
+<table cellpadding="0" cellspacing="0" border="0" class="display table " id="tblServicios" width="100%">
+	<thead>
+		<tr>
+			<th>Servicio</th>
+			<th>Password</th>
+			<th>Mantenimiento</th>
+			<th>Falla</th>
+			<th>Solución</th>
+			<th>Servicios Sol.</th>
+			<th>Respaldo</th>
+			<th>Observaciones</th>
+		</tr>
+	</thead>
+
+	<tbody>
+{% for l in listaserv %}
+		<tr>
+			<td> <a class="btn btn-success btn-xs" href="{% url 'detaillservice' l.servicio.id %}">{{l.servicio.id}} </a> </td>
+			<td>{{l.password}}</td>
+			<td>{{l.mant}}</td>
+			<td>{{l.falla}}</td>
+			<td>
+				{% if l.solucions%}
+					{{l.solucion}}
+				{% else %}
+					sin asignar
+				{% endif %}		
+			</td>
+			<td>{{l.serviciosSolicitados}}</td>
+			<td>
+				{% if l.respaldo %}
+					<span class="glyphicon glyphicon-ok ok"></span>
+				{% else %}	
+					<span class="glyphicon glyphicon-remove not"></span>
+				{% endif %}	
+			</td>
+			<td>{{l.observaciones}}</td>
+		</tr>
+{% endfor %}
+	</tbody>
+</table>
+</div>

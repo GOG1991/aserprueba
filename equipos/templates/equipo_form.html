@@ -1,0 +1,53 @@
+<script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+<form action="" method="POST" enctype="multipart/form-data" id="frmRegistroE">
+  {% csrf_token %}
+
+  {% load formset_tags %}
+	
+	<div id="formset" data-formset-prefix="{{ acceformset.prefix }}">
+    {{equipoform.as_p}}
+    <hr>
+	{{ acceformset.management_form }}
+
+	 <div data-formset-body>
+	
+	{% for form in acceformset.forms %}
+
+	<div data-formset-form>
+	
+	{{ form.as_p }}
+	
+	
+
+	{% endfor %}
+ </div>
+	 <!-- The empty form template. By wrapping this in a <script> tag, the
+        __prefix__ placeholder can easily be replaced in both attributes and
+        any scripts -->
+        <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+                <div data-formset-form>
+                    {{ acceformset.empty_form }}
+                    <button type="button" data-formset-delete-button class="btnEquipo">Borrar formulario</button>
+                </div>
+            {% endescapescript %}
+        </script>
+    
+   
+         <!-- This button will add a new form when clicked -->
+       
+</div>
+<hr>
+ <input type="button" class="addAcce btnEquipo" value="Agregar accesorio" data-formset-add>
+        <script>
+        jQuery(function($) {
+            $("#formset").formset();
+        });</script>
+ <div class="modal-footer">
+    <span id="spnSpinnerR"></span>
+    <button type="button" class="btn btn-primary" id="btnCrearE">REGISTRAR</button>
+    <button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+</div>
+
+
+</form>

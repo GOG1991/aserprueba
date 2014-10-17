@@ -1,0 +1,36 @@
+<div class="table-responsive">
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-hover" id="tblFalla" width="100%"> 
+        <thead>
+            <tr class="titles">
+                <th>NOMBRE</th>
+                <th>DESCRIPCION</th>
+                <th>CATEGORIAS</th>
+                <th class="center">SELECCIONAR</th>
+            </tr>
+        </thead>
+        <tbody class="tblFallas">  
+        	{% for falla in fallas %}
+			<tr>
+				<td>{{falla.nombre}}</td>
+				<td>{{falla.descripcion|truncatewords:'5'|safe|escape}}</td>
+				<td>
+					{% for categoria in falla.categoria.all %}
+						{{ categoria.nombre }},
+					{% endfor %}
+				</td>
+				<input type="hidden" value="{{falla.id}}">
+				<td class="center"><button class="btn btn-success btn-xs btnFalla" id="btnFalla"><i class="fa fa-wrench"></i></button></td>
+			</tr>
+			{% empty %}
+				<tr>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+				</tr>
+
+			{% endfor %}
+        </tbody>
+        <tfoot> </tfoot>
+    </table>
+</div>

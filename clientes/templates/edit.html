@@ -1,0 +1,12 @@
+<form action="." method="POST">
+  {% csrf_token %}
+  {{clienteform.as_p }} 
+{{ repformset.management_form }}
+
+	{% for form in repformset %}
+	{{ form.as_p }}
+	
+	{% endfor %}
+
+<input type="submit" value="Editar" >
+</form>

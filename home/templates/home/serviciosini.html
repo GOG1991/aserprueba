@@ -1,0 +1,31 @@
+<tbody> 
+    {% for servicio in servicios %}
+    <tr>
+      <td>{{servicio.fechaEntrada|date:"d M Y H:i" }}</a></td>
+      <td>{{servicio.id}}</td>
+      <td>
+      {{servicio.estado.all|first }}
+      </td>
+      <td>
+      {% for tecnico in servicio.tecnico.all %}
+            {{ tecnico.user.first_name }},
+      {% endfor %}
+      </td>
+      <td>{{servicio.cliente}}</td>
+      <td class="center"><a href="{% url 'detaillservice' servicio.id%}"><button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-arrow-right"></span> </button></a></td>
+      
+    
+    </tr>
+    {% empty %}
+      <tr>
+        <td>No hay datos</td>
+        <td>No hay datos</td>
+        <td>No hay datos</td>
+        <td>No hay datos</td>
+        <td>No hay datos</td>
+        <td>No hay datos</td>
+      </tr>
+
+    {% endfor %}
+
+</tbody>

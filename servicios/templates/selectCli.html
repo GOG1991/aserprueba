@@ -1,0 +1,42 @@
+<div class="table-responsive">
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-hover" id="tblCli" width="100%"> 
+        <thead>
+            <tr class="titles">
+                <th>NOMBRE</th>
+                <th>DOMICILIO</th>
+                <th>TELÉFONO</th>
+                <th>CIUDAD</th>
+                <th>CONDICIONES</th>
+               <!-- <th class="center">SERVICIO</th>-->
+               <!-- <th class="center">ELIMINAR</th> -->
+            </tr>
+        </thead>
+        <tbody class="tblCli">  
+        	{% for cliente in clientes %}
+			<tr>
+				<td><a class="btnServicio" id="btnServicio">{{cliente.nombre}}</a></td>
+				<td>{{cliente.direccion}}</td>
+				<td>{{cliente.telefono1}}</td>
+				<td>{{cliente.ciudad}} </td>
+				<td style="background-color:{{cliente.reputacion.all.0.color}};font-weight:bold;"></td>
+				<!-- <a href="{% url 'editCliente' cliente.id %}">{{cliente.id}}</a> -->
+				<input type="hidden" value="{{cliente.id}}">
+				<!--<td class="center"><button class="btn btn-success btn-xs btnServicio" id="btnServicio"><i class="fa fa-wrench"></i></button></td>-->
+				<!--<td class="center"><button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button></td> -->
+
+			</tr>
+			{% empty %}
+				<tr>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<!--<td>No hay datos</td>-->
+				</tr>
+
+			{% endfor %}
+        </tbody>
+        <tfoot> </tfoot>
+    </table>
+</div>

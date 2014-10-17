@@ -1,0 +1,20 @@
+<div class="titGaranti"><span>Fecha actual:</span> {{hoy}}</div>
+<div class="titGaranti"><span>Folio de Servicio:</span> {{servicio.id}}</div>
+<div class="titGaranti"><span>Días de Garantía:</span> {{servicio.garantia}}</div>
+<div class="titGaranti"><span>Cliente:</span> {{servicio.cliente}}</div>
+<div class="titGaranti"><span>Fecha de entrego al cliente:</span>{{ fechaEnt|date:"D d M Y" }} {{ fechaEnt|time:"H:i" }}</div>
+{% if ban == 1 %}
+	<div class="titGaranti"><span>Ultimo dia de garantia:</span>{{udg}}</div>
+	{% if valido %}
+		<div class="titGaranti"><span>Dias restantes de garantia:</span>{{ restantes.days }} días<br>
+		<a href="{% url 'cambiarcon' servicio.id%}" class="btn btn-danger btn-sm">ACEPTAR GARANTÍA</a>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	{% else %}	
+		<div class="titGaranti">Ha pasado el tiempo de garantía de este servicio</div><br>
+		<a href="{% url 'cambiarcon' servicio.id%}" class="btn btn-danger btn-sm" disabled="disabled">ACEPTAR GARANTÍA</a>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	{% endif %}
+{% else %}
+	<p class="alert alert-warning">El servicio no tiene asignada fecha de entrega , debes agregarla en los datos del servicio para poder calcular la validez de la garantía</p>
+	<button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+{% endif %}	

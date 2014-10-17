@@ -1,0 +1,9 @@
+<form  method="POST" enctype="multipart/form-data" id="frmSol" name="frmSol">
+    {% csrf_token %}
+    {{ solFormSet.as_p }}
+    <!--<input type="submit">-->
+    <input type="hidden" id="id" name="id" value="{{servicio.id}}">
+    <button class="btn btn-primary pull-right" id="btnAddSol">Guardar</button>
+    <span id="spinSol" class="spinSol col-xs-offset-4"></span>
+</form>
+

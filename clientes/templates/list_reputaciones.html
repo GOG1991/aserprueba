@@ -1,0 +1,9 @@
+<span class="ok">{{cliente.nombre}}</span> <br>
+<ul class="lista">
+	{% for reputacion in reputaciones %}
+	<li>
+		<span class="active">Condición </span> {{ reputacion.reputacion }} <span class="active">Razón </span>{{reputacion.razon}} <br> <span class="active">Fecha </span>{{reputacion.fecha}}
+	</li>	
+	{% endfor %}
+</ul>
+

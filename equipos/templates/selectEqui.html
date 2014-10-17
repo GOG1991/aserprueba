@@ -1,0 +1,39 @@
+<div class="table-responsive">
+    <table cellpadding="0" cellspacing="0" border="0" class="display table table-hover" id="tblEqui" width="100%"> 
+        <thead>
+            <tr class="titles">
+                <th>NO. SERIE</th>
+                <th>MODELO</th>
+                <th>MARCA</th>
+                <th>CATEGORIA</th>
+                <th>ACCESORIOS</th>
+                <th class="center">SELECCIONAR</th>
+            </tr>
+        </thead>
+        <tbody class="tblEquipo">  
+        	{% for equipo in equipos %}
+			<tr>
+				<td>{{equipo.noserie}}</td>
+				<td>{{equipo.modelo}}</td>
+				<td>{{equipo.marca}}</td>
+				<td>{{equipo.categoria}} </td>
+				<input type="hidden" class="txtIdEquipo" value="{{equipo.id}}">
+				<input type="hidden" class="txtIdCat" value="{{equipo.categoria.pk}}">
+				<td class="center"><button class="btn btn-primary btn-xs btnEquipoA" id="btnEquipoA"><i class="fa fa-wrench"></i></button></td>
+				<td class="center"><button class="btn btn-success btn-xs btnSerEquipo" id="btnSerEquipo"><i class="fa fa-wrench"></i></button></td>
+			</tr>
+			{% empty %}
+				<tr>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+					<td>No hay datos</td>
+				</tr>
+
+			{% endfor %}
+        </tbody>
+        <tfoot> </tfoot>
+    </table>
+</div>

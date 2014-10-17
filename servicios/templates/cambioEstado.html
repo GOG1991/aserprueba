@@ -1,0 +1,24 @@
+
+<div class="divEdos" id="divEdos">
+<span class="spnEdo">Estado actual:</span> <span class="ok">{{lastEstado.estado.nombre}}</span>
+<form  action="{% url 'cambioedo' %}" name="frmEstados" id="frmEstados">
+
+	{% csrf_token %}
+	<input type="hidden" value="{{servicio}}" name="id">
+
+<select name="estado" required class="form-control"> 
+{% for estadovalido in estadosvalidos %}
+   <option value="{{estadovalido.movimiento.id}}">{{estadovalido.movimiento.nombre}}</option> 
+{% endfor %}
+</select>
+
+	{{cambEstado.as_p}}
+
+<div class="modal-footer">
+	<span id="spnEdos"></span>
+	<button id="cambiar" class="btn btn-primary">Cambiar</button>
+	<button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+</div>	
+	<!--<input type="submit" value="Cambiar">-->
+</form>
+</div>

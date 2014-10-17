@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Recibo</title>
+	{% load staticfiles %}
+		<style>
+		body{
+			margin:5px 30 0 30px;
+			padding:10px;
+			
+		}
+		.datos{
+			
+			border: 1px solid black;
+			border-radius: 13px;
+			font-size: 13px;
+			margin-bottom: 10px;
+			padding: 5px;
+		}
+
+		.condicion{
+			float:left;
+			width: 80%;
+		}
+
+		.condiciones{
+			font-size: 12px;
+			height: 100px;
+			
+		}
+
+		.costos{
+			border-radius: 13px;
+			border: 1px solid black;
+			font-size: 13px;
+			margin-top:10px;
+			padding:  5px;
+
+		}
+
+		.fecha{
+			float:left;
+			font-size: 20px;
+			font-weight: bold;
+			margin-top:30px;
+			width: 20%;
+			
+		}
+		
+		.firma{
+			float:right;
+			width: 20%;
+		}
+
+
+		.header{
+			height: 60px;
+			margin-top:-20px;
+			//border: 1px solid black;
+			width: 100%;
+
+		}
+
+		.info{
+			font-size: 12px;
+			float:left;
+			margin-left:15px;
+			margin-right:50px;
+			text-align: center;
+			width: 50%;
+		}
+
+		.logo{
+			float:left;
+			margin-top:30px;
+			width:20%;
+		
+		}
+		
+		.titles{
+			text-align: center;
+		}
+
+		@media all {
+			div.salto-pagina{
+				display:none;
+			}
+		}
+
+		@media print{
+
+			.datos{
+				font-size: 8pt;
+			}
+			div.salto-pagina{
+				display: block;
+				page-break-before:always;
+			}
+
+			.listaCon{
+				font-size: 7pt;
+			}
+		}
+
+	</style>
+	
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<img src="{% static 'img/info.png' %}" alt="" height="60px" width="150px">
+		</div>
+		<div class="info">
+			<p>
+				Bolivar 42 A Télefono 01(353)532-50-21 y 5318121 <br>
+				Fax 01(353)532-50-21 Col.Centro C.P 59000 Sahuayo Mich <br>
+				E-mail:Infosystcomputacion@prodigy.net.mx y inf_systcomputacion.hotmail.com <br>
+				Sitio Web: www.infosystcomputacion.com.mx
+
+
+			</p>
+		</div>
+		<div class="fecha" id="fecha">
+			
+		</div>
+	</div><br>
+	<div class="titulos">
+		<div class="folio">
+			<strong><span>Folio : {{servicio.id}}</span></strong>
+		</div>
+		<div class="titles">
+			<span><h4>ENTREGA DE EQUIPO</h4></span>
+		</div>
+	</div>
+	<div class="datos">
+		<p>Cliente : {{servicio.cliente}}</p>
+		<p>Condición : {{servicio.condicion}}</p>
+		<p>Días de garantía {{servicio.garantia}}</p>
+		{% for equipos in listadetalles %}
+			
+			<p>Equipo : {{equipos.equipo.categoria}} {{equipos.equipo}} </p> 
+			<p>Falla: {{equipos.falla}}</p>
+			<p>Servicios solicitados: {{equipos.serviciosSolicitados}}</p>
+			<p>Mantenimiento : {{equipos.mant}}</p>
+			<p> Respaldo :
+				{% if equipos.respaldo %}
+					Si
+				{% else %}		
+					No
+				{% endif %}
+			</p>
+			<p>Observaciones : {{equipos.observaciones}}</p>
+			<p>Accesorios</p>
+			{% for acce in equipos.equipo.accesorio.all %}
+				{{acce.nombre}} <span> , </span> 
+
+			{% empty %}
+				<span>Sin accesorios</span>	
+			{% endfor %}
+			<hr>
+		{% endfor %}
+		<p>
+			<span class="titleProd">Productos </span><br>
+				       					
+			<ul id="listprod" class="lista">
+				{% if listProd|length > 0 %}
+					{% for productos in listProd %}
+					<li>{{productos.producto}} </li>
+					{% endfor %}
+				{% else %}	
+					<li>Sin productos</li>
+				{% endif %}	
+			</ul>
+		</p><hr>
+		<p>
+			<span class="titleSol">Solución </span><span class="spnSol ok" id="spnSol"></span><br>
+				<ul class="lista">
+					{% if servicio.solucion.all|length > 0 %}
+						{% for sol in servicio.solucion.all %}
+							
+							<li>{{sol.nombre}}</li>	
+
+						{% endfor %}
+					{% else %}
+						<li>Sin especificar</li>	
+					{% endif %}
+				</ul>
+		</p>
+	</div>
+	<div>Costos</div>
+	<div class="costos">
+		{% if total > 0 %}
+			Costo de productos :<span class="totProd"> {{ total }}</span>
+		{% else %}	
+			Costo de productos :<span class="totProd"> 0 </span>
+		{% endif %}	
+		{% if servicio.costo %}
+			<div class="col-sm-5"><span class="totSer">Costo de servicio: </span>{{servicio.costo}}</div>
+		{% else %}	
+			<div class="col-sm-5"><span class="totSer">Costo de servicio: </span>sin asignar</div>
+		{% endif %}	
+		{% if servicio.costo_respaldo %}
+			<div class="col-sm-4"><span class="totRes">Costo Respaldo:</span> {{servicio.costo_respaldo}}</div>
+		{% else %}	
+			<div class="col-sm-4"><span class="totRes">Costo Respaldo:</span> sin asignar</div>
+		{% endif %}	
+		<div class="col-sm-4"><span class="totRes">Descuento </span>{{servicio.costo_descuento|floatformat}} %</div>
+		<hr>
+		<span id="totT">Costo Total:$ </span><span><mark>{{ totC }}</mark></span>
+	</div>
+	<div class="condiciones">
+		<div class="condicion">
+			<h5>Condiciones</h5>
+			<ul class="listaCon">
+				<li>Todo servicio tiene garantia de 30 días solo sobre la falla que fue atendida, a menos que el tipo de servicio requiera otra cantidad</li>
+				<li>Para hacer valida la garantía debe presentar la factura u orden de servicio correspondiente</li>
+				<li>Antes de firmar verifique que el equipo se entrega a su satisfacción</li>
+			</ul>
+		</div><br><br><br>
+		<div class="firma">
+			<div class="linea">-------------------------------</div>
+			<div class="recibo"> Cliente {{servicio.cliente}} <br> Recibi de conformidad</div>
+		</div>
+	</div>
+
+	<div class="salto-pagina"></div>
+<!--
+	<div class="header">
+		<div class="logo">
+			<img src="{% static 'img/info.png' %}" alt="" height="60px" width="150px">
+		</div>
+		<div class="info">
+			<p>
+				Bolivar 42 A Télefono 01(353)532-50-21 y 5318121 <br>
+				Fax 01(353)532-50-21 Col.Centro C.P 59000 Sahuayo Mich <br>
+				E-mail:Infosystcomputacion@prodigy.net.mx y inf_systcomputacion.hotmail.com <br>
+				Sitio Web: www.infosystcomputacion.com.mx
+
+
+			</p>
+		</div>
+		<div class="fecha" id="fecha">
+			
+		</div>
+	</div><br>
+	<div class="titulos">
+		<div class="folio">
+			<strong><span>Folio : {{servicio.id}}</span></strong>
+		</div>
+		<div class="titles">
+			<span><h4>ENTREGA DE EQUIPO</h4></span>
+		</div>
+	</div>
+	<div class="datos">
+		<p>Cliente : {{servicio.cliente}}</p>
+		<p>Condición : {{servicio.condicion}}</p>
+		<p>Días de garantía {{servicio.garantia}}</p>
+		{% for equipos in listadetalles %}
+			
+			<p>Equipo : {{equipos.equipo.categoria}} {{equipos.equipo}} </p> 
+			<p>Falla: {{equipos.falla}}</p>
+			<p>Servicios solicitados: {{equipos.serviciosSolicitados}}</p>
+			<p>Mantenimiento : {{equipos.mant}}</p>
+			<p> Respaldo :
+				{% if equipos.respaldo %}
+					Si
+				{% else %}		
+					No
+				{% endif %}
+			</p>
+			<p>Observaciones : {{equipos.observaciones}}</p>
+			<p>Accesorios</p>
+			{% for acce in equipos.equipo.accesorio.all %}
+				{{acce.nombre}} <span> , </span> 
+
+			{% empty %}
+				<span>Sin accesorios</span>	
+			{% endfor %}
+			<hr>
+		{% endfor %}
+		<p>
+			<span class="titleProd">Productos </span><br>
+				       					
+			<ul id="listprod" class="lista">
+				{% if listProd|length > 0 %}
+					{% for productos in listProd %}
+					<li>{{productos.producto}} </li>
+					{% endfor %}
+				{% else %}	
+					<li>Sin productos</li>
+				{% endif %}	
+			</ul>
+		</p><hr>
+		<p>
+			<span class="titleSol">Solución </span><span class="spnSol ok" id="spnSol"></span><br>
+				<ul class="lista">
+					{% if servicio.solucion.all|length > 0 %}
+						{% for sol in servicio.solucion.all %}
+							
+							<li>{{sol.nombre}}</li>	
+
+						{% endfor %}
+					{% else %}
+						<li>Sin especificar</li>	
+					{% endif %}
+				</ul>
+		</p>
+	</div>
+	<div>Costos</div>
+	<div class="costos">
+		{% if total > 0 %}
+			Costo de productos :<span class="totProd"> {{ total }}</span>
+		{% else %}	
+			Costo de productos :<span class="totProd"> 0 </span>
+		{% endif %}	
+		{% if servicio.costo %}
+			<div class="col-sm-5"><span class="totSer">Costo de servicio: </span>{{servicio.costo}}</div>
+		{% else %}	
+			<div class="col-sm-5"><span class="totSer">Costo de servicio: </span>sin asignar</div>
+		{% endif %}	
+		{% if servicio.costo_respaldo %}
+			<div class="col-sm-4"><span class="totRes">Costo Respaldo:</span> {{servicio.costo_respaldo}}</div>
+		{% else %}	
+			<div class="col-sm-4"><span class="totRes">Costo Respaldo:</span> sin asignar</div>
+		{% endif %}	
+		<div class="col-sm-4"><span class="totRes">Descuento </span>{{servicio.costo_descuento|floatformat}} %</div>
+		<hr>
+		<span id="totT">Costo Total:$ </span><span><mark>{{ totC }}</mark></span>
+	</div>
+	<div class="condiciones">
+		<div class="condicion">
+			<h5>Condiciones</h5>
+			<ul class="listaCon">
+				<li>Todo servicio tiene garantia de 30 días solo sobre la falla que fue atendida, a menos que el tipo de servicio requiera otra cantidad</li>
+				<li>Para hacer valida la garantía debe presentar la factura u orden de servicio correspondiente</li>
+				<li>Antes de firmar verifique que el equipo se entrega a su satisfacción</li>
+			</ul>
+		</div><br><br><br>
+		<div class="firma">
+			<div class="linea">-------------------------------</div>
+			<div class="recibo"> Recibi de conformidad</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		var totP;
+		var totS;
+		var totR;
+		totP = document.getElementsByClassName('totProd');
+		var dn="";
+		var d = new Date();
+		var hours = d.getHours();
+		if(hours>12)
+			dn="pm";
+		else
+			dn="am";
+
+		document.getElementsByClassName('fecha')[0].innerHTML=d.getDate()+' / '+(d.getMonth()+1)+' / '+d.getFullYear()+' hora: '+hours+':'+d.getMinutes()+dn  ;
+		document.getElementsByClassName('fecha')[1].innerHTML=d.getDate()+' / '+(d.getMonth()+1)+' / '+d.getFullYear()+' hora: '+hours+':'+d.getMinutes()+dn  ;
+	</script>-->
+</body>
+</html>

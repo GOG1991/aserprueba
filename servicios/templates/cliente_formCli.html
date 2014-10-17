@@ -1,0 +1,31 @@
+<form action="{% url 'addCliente' %}" method="POST" enctype="multipart/form-data" id="frmRegistroCli">
+  {% csrf_token %}
+{{clienteform.as_p }} 
+{{repformset.as_p}}
+<!--
+<label for="">Nombre</label>
+{{form.nombre}} 
+<label for="">Telefono</label>
+{{form.telefono1}} 
+<label for="">Direccion</label>
+{{form.direccion}} 
+<label for="">Telefono alternativo</label>
+{{form.telefono2}} 
+<label for="">Email</label>
+{{form.email}} 
+<label for="">Ciudad</label>
+<p>{{form.ciudad}} </p>
+-->
+<!--
+<label for="">cliente</label>
+<p>{{form2.cliente}} </p>
+<label for="">reputacion</label>
+<p>{{form2.reputacion}} </p>
+<label for="">razon</label>
+<p>{{form2.razon}} </p>-->
+<div class="modal-footer">
+	<span id="spnSpinnerR"></span>
+	<button type="button" class="btn btn-primary" id="btnCrear">REGISGTRAR</button>
+	<button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+</div>
+</form>

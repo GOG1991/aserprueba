@@ -1,0 +1,34 @@
+/* ************ */
+body,
+html {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  max-width: 100%;
+}
+body {
+  background-color: #b8b4b4;
+  background-image: url("../img/p6.png");
+}
+input[type=text] {
+  -webkit-box-shadow: 0 0 7px rgba(63,134,196,0.5);
+  box-shadow: 0 0 7px rgba(63,134,196,0.5);
+}
+input[type=text]:focus {
+  background-color: #3276b1;
+  color: #fff;
+  -webkit-box-shadow: inset 0 0 7px rgba(255,255,255,0.8);
+  box-shadow: inset 0 0 7px rgba(255,255,255,0.8);
+}
+.btn-warning {
+  background-color: #f70;
+}
+.login {
+  margin-top: 11em;
+  color: #4c4c4c;
+}
+.panel {
+  border: none;
+  -webkit-box-shadow: 0 3px 14px rgba(63,134,196,0.7);
+  box-shadow: 0 3px 14px rgba(63,134,196,0.7);
+}

@@ -1,0 +1,11 @@
+<form action="" method="POST" id="frmPrueba">
+  {% csrf_token %}
+  {{ form }}
+	<div class="modal-footer">
+		<span id="spnSpinner"></span>
+		<button type="input" class="btn btn-primary" id="btnRegistro">REGISTRAR</button>
+		<button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+
+	</div>
+	<input type="hidden" id="ruta" value="edit_cliente/">
+</form>

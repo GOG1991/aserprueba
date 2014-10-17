@@ -1,0 +1,12 @@
+
+<ul class="lista">
+	{% for estado in listaestados %}
+	<li>
+		<span class="ok">Cambio Estado a :</span> {{ estado.estado.nombre }} <br> <span class="ok"> Razon :</span> {{estado.razonCambio}}<br>
+	
+		<span class="ok">Tecnico : </span>{{estado.perfil}} <br>
+		<span class="ok">Fecha : </span> {{estado.fechaCambio}}
+	</li>	
+	<hr>
+	{% endfor %}
+</ul>

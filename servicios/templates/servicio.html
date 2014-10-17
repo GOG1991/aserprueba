@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %} ASER 2.0 SERVICIO NUEVO {%endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+	<section id="sctnContainer"> <!-- container start -->
+	    <div class="container" >
+		    <div class="row">
+		        <div class="col-lg-8  col-md-12  col-sm-12  col-xs-12 col-lg-offset-2">
+		            <div class="panel panel-primary">
+			        	<div class="panel-heading titlePanel">REGISTRO DE SERVICIO <span style="float:right;">FOLIO 00</span></div>
+			        	<div class="panel-content">
+				        	<div class="row"><br>
+				        		<div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+				        			<form action="" class="form-horizontal" role="form">
+				        				<div class="form-group">
+				        					<label for="txtFecha" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Fecha</label>
+				        					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+				        						<input type="text" class="form-control" name="txtFecha" id="txtFecha" value="">
+				        					</div>
+				        				</div>
+				        				<div class="form-group has-feedback">
+				        					<label for="txtCliente" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Cliente</label>
+				        					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+				        						<input type="text" class="form-control" name="txtCliente" id="txtCliente">
+				        						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+				        					</div>
+				        					<a href="#" data-toggle="modal" data-target="#myModal" title="registrar cliente nuevo"><span class="col-lg-2 glyphicon glyphicon-plus"></span></a>
+				        						
+				        				</div>
+				        				<div class="form-group">
+				        					<label for="sltTiposer" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Servicio</label>
+				        					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+				        						<select name="sltTiposer" id="sltTiposer" class="form-control">
+				        							<option value="1">Local</option>
+				        							<option value="2">Domicilio</option>
+				        						</select>
+				        					</div>
+				        				</div>
+				        				<div class="form-group">
+				        					<label for="txtDireccion" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Dirección</label>
+				        					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+				        						<input type="text" class="form-control" name="txtDireccion" id="txtDireccion">
+				        					</div>
+				        				</div>
+				        				<div class="form-group">
+				        					<label for="txtPersona" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Persona autorizada</label>
+				        					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+				        						<input type="text" class="form-control" name="txtPersona" id="txtPersona" placeholder="persona que llama o autorizada">
+				        					</div>
+				        				</div>
+				        				<div class="form-group">
+				        					<div class="col-lg-2  col-md-2 col-sm-2 col-xs-2  col-lg-offset-10 col-md-offset-10 col-sm-offset-10 col-xs-offset-9">
+				        						<button class="btn btn-success btnsig" id="btnStep1" title="siguiente"><span class="glyphicon glyphicon-arrow-right"></span></button>
+				        					</div>
+				        				</div>
+				        			</form>
+				        			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-5 col-lg-offset-10 col-md-offset-10 col-sm-offset-10 col-xs-offset-7"><span class="spnStep">paso 1 de 4</span></div>
+				        		</div>
+				        	</div>
+			        	</div>
+			        </div>
+		        </div>
+		    </div>
+		</div>
+	</section> <!-- container end -->
+
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" language="javascript" src="{% static 'js/servicios/servicio.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,13 @@
+<form method='post' action='.'>
+{% csrf_token %}
+  <fieldset>
+    <legend>Equipos</legend>
+    {{serviceForm.as_p }} 
+	{{ detalleFormset.management_form }}
+	{% for form in detalleFormset.forms %}
+	<div>{{ form.as_p }}</div>
+	{% endfor %}
+      <input title='Add' type='submit' name='add_equipo' value='Add' />
+    </fieldset>
+    <input title='Submit this form' type='submit' name='submit' value='Submit' />
+</form>

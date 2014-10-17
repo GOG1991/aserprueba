@@ -1,0 +1,23 @@
+<!--Detalles del equipo {{equipo.marca.nombre}}
+Lista de accesorios-->
+
+<!--Lista de servicios en los que el equipo a estado
+<ul>
+	{% for servicio in listaser %}
+	<li> {{servicio.id}} </li>
+	{% endfor %}
+</ul>-->
+{% for accesorio in listac %}
+<div class="col-sm-5">
+	<span class="">Tipo: </span> {{accesorio.accesorio}}
+</div>
+<div class="col-sm-3">
+	<span class="">No. Serie: </span> {{accesorio.noserie}}
+</div>
+<div class="col-sm-4">
+	<span class="">Descripción: </span> {{accesorio.descripcion}}
+</div>
+{% empty %}
+	<div class="col-xs-12">Sin Accesorios</div>
+
+{% endfor %}

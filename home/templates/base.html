@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% load staticfiles %}
+        <!-- estyles -->
+        <link rel="shortcut icon" href="{% static 'img/logo-aser.png' %}"/> 
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+        <!-- <link rel="stylesheet" href="{% static 'css/main.css' %}"> -->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/jquery.dataTables.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom-theme/jquery-ui-1.10.4.custom.css' %}">
+        <link rel="stylesheet" href="{% static 'css/lightbox.css' %}">
+        <link href='http://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+        <!-- styles -->
+        <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
+        <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+        <!-- scripts-->
+       
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- start
+         html -->
+        <header> <!-- start header -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Cambiar la navegación</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>   
+                    </button><a href="{% url 'home' %}" class="navbar-brand"><img src="{% static 'img/logo-aser.png' %}" alt="" height="35px"></a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-ex1-collapse menu">
+                    
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="inicio"><a href="{% url 'home' %}" class="link"><i class="fa fa-home"></i>   INICIO</a></li>
+                        <li class="dropdown"><a href="{% url 'listaClientes' %}" class="link"><i class="fa fa-users"></i>   CLIENTES </a> </li>
+                        <li class="dropdown"><a href="{% url 'addService' %}" class="link"><i class="fa fa-wrench"></i>  SERVICIOS </a> </li>
+                        {# verificamos que el usuario que inicio sesion tiene permiso de ver reportes #}
+                        {% if perms.servicios.view_repor %}
+                        <li><a href="#" class="link"><i class="fa fa-bar-chart-o"></i>   REPORTES</a></li>
+                        {% endif %}
+                        <li><a href="/admin" target="_blank"><i class="fa fa-cog"></i>  CONFIGURACIÓN</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" id="user">
+                        {% for lis in lservicios %}
+                            <ul class="servicioslist" id="servicioslist" style="display:none;">
+                                <li>{{lis.servicio.id}}</li>
+                            </ul>
+                        {% endfor %}
+                        <li><a title="Servicios Asignados" class="notificacion" id="pop" data-toggle="popover" >servicios<span class="badge pull-right"></span></a></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle link" data-toggle="dropdown"> <i class="fa fa-user"></i>
+                        {% if user.is_authenticated %}
+                            {{ user.username }}
+                        {% else %}  
+                            Offline
+                        {% endif %}  
+                        <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'logout' %}">CERRAR SESIÓN <span class="glyphicon glyphicon-log-out"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>    
+
+            </nav>
+        </header> 
+        
+        {% block opciones %}
+
+        {% endblock %}
+        
+        {% block content %}
+
+        {% endblock %}
+         <!-- start modal windows -->
+        {% block modal %}
+
+        {% endblock %}
+       
+    <!-- <footer>
+        <h3>
+            <strong> ASER V2.0</strong>
+            <span class="divInfo">
+                2014
+            </span>
+        </h3>
+    </footer>-->
+      <!-- start js files -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write("<script src='{% static 'js/vendor/jquery-1.10.2.min.js' %}''><\/script>")</script>
+     <script type="text/javascript" language="javascript" src="{% static 'js/jquery-ui-1.10.4.custom.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script type="text/javascript" language="javascript" src="{% static 'js/jquery.dataTables.js' %}"></script>
+    <script type="text/javascript" language="javascript" src='{% static "js/main.js" %}'></script>
+    {% block script %}{% endblock %}
+    
+    </body>
+</html>

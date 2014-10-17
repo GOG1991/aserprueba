@@ -1,0 +1,19 @@
+<form action="." method="POST" enctype="multipart/form-data" id="frmRegistro">
+  {% csrf_token %}
+{{serviceForm.as_p }} 
+{{ detalleFormset.management_form }}
+	{% for form in detalleFormset.forms %}
+	<div>{{ form.as_p }}</div>
+	{% endfor %}
+      <input title='Add' type='submit' name='add_equipo' value='Add' />
+{{tiposerFormset.as_p}}
+{{estadoFormset.as_p}}
+{{mantFormset.as_p}}
+{{productoFormset.as_p}}
+{{tecnicoserFormset.as_p}}
+<div class="modal-footer">
+	<span id="spnSpinnerR"></span>
+	<input type="submit" value="Registrar" class="btn btn-primary" name="submit" >
+	<button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+</div>
+</form>
