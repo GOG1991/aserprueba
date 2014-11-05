@@ -57,7 +57,7 @@ WSGI_APPLICATION = 'aser.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'aserdb080814',
+        'NAME': 'aserdb080815',
         'USER':'aser_adminbd20',
         'PASSWORD':'JUvX8O08',
         'HOST': 'localhost',
