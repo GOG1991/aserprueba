@@ -10,3 +10,6 @@ django-formset-js==0.4.0
 django-jquery-js==2.0.3
 django-wkhtmltopdf==2.0.1
 pytz==2014.4
+Markdown==2.5.1
+django-filter==0.8
+setproctitle
